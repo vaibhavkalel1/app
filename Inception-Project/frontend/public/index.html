@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pencil Marketplace</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Buy and Sell Pencils</h1>
+    <div id="pencils">
+        <!-- Pencil list will appear here -->
+    </div>
+    <form id="buyForm">
+        <input type="text" id="pencilId" placeholder="Pencil ID">
+        <input type="text" id="buyer" placeholder="Buyer">
+        <button type="submit">Buy Pencil</button>
+    </form>
+
+    <script>
+        // Fetch available pencils
+        fetch('/api/pencils')
+            .then(response => response.json())
+            .then(data => {
+                const pencilsDiv = document.getElementById('pencils');
+                data.pencils.forEach(pencil => {
+                    const p = document.createElement('p');
+                    p.textContent = `Pencil ID: ${pencil.id}, Owner: ${pencil.owner}, Price: ${pencil.price}`;
+                    pencilsDiv.appendChild(p);
+                });
+            });
+
+        // Buy pencil
+        document.getElementById('buyForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const pencilId = document.getElementById('pencilId').value;
+            const buyer = document.getElementById('buyer').value;
+
+            fetch('/api/buy', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: pencilId, buyer: buyer })
+            })
+            .then(response => response.json())
+            .then(data => alert('Pencil bought successfully!'));
+        });
+    </script>
+</body>
+</html>
