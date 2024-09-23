@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sell a Pencil</title>
+</head>
+<body>
+    <h1>Sell a Pencil</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="name">Pencil Name:</label>
+        <input type="text" name="name" required>
+        <label for="price">Price:</label>
+        <input type="number" name="price" step="0.01" required>
+        <label for="seller">Your Name:</label>
+        <input type="text" name="seller" required>
+        <button type="submit">Sell Pencil</button>
+    </form>
+    <a href="{% url 'pencil_list' %}">Back to Marketplace</a>
+</body>
+</html>
